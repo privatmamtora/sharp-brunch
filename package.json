@@ -1,0 +1,39 @@
+{
+  "name": "sharp-brunch",
+  "version": "0.0.1",
+  "description": "A brunch wrapper for lovell/sharp",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sharp",
+    "brunch",
+    "image",
+    "resize",
+    "crop",
+    "png",
+    "jpeg",
+    "tiff",
+    "webp"
+  ],
+  "author": {
+    "name": "Privat Krish Mamtora Atmaram"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "anymatch": "^1.3.0",
+    "convict": "^1.0.1",
+    "glob": "^5.0.14",
+    "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
+    "path": "^0.11.14",
+    "sharp": "^0.11.2"
+  },
+  "maintainers": [
+    {
+      "name": "privatmamtora",
+      "email": "privat.mamtora@gmail.com"
+    }
+  ]
+}
