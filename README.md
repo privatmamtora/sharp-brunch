@@ -1,5 +1,38 @@
 Sharp for Brunch
 
+Pesudo
+
+After assests are coppied minify and perform any other operations on it.
+
+To filter files user can provide a custom `src` (a directory path) and use `imageExt` to filter by extension
+
+`src` - A path to the src files
+
+`dest` - Base path to where files should be stored (will clone directory structure)
+
+Eaxmple:
+
+`src: "img/"`
+`dest: "/img/min"`
+
+Will search `img` dir for all files
+Found: `img/sun/big.jpg`
+Will save file to: `img/min/sun/big.jpg`
+
+Will ignore files in `dest` if it is within `src` directory
+
+`imageExt` is used to limit input to files the library can handel, but can be overloaded to filter list (will cry if you add unsupported extensions)
+
+TODO: Update so `src` takes a pattern for `glob`
+TODO:
+
+Plugin Work flow
+
+1. Sharp config array > get files
+1. Build the multiple pipelines
+
+2. run the images through the pipelines
+
 Will take
 
 `resize` works
