@@ -24,14 +24,6 @@ Will ignore files in `dest` if it is within `src` directory
 `imageExt` is used to limit input to files the library can handel, but can be overloaded to filter list (will cry if you add unsupported extensions)
 
 TODO: Update so `src` takes a pattern for `glob`
-TODO:
-
-Plugin Work flow
-
-1. Sharp config array > get files
-1. Build the multiple pipelines
-
-2. run the images through the pipelines
 
 Will take
 
