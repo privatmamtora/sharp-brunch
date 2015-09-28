@@ -1,7 +1,7 @@
 {
   "name": "sharp-brunch",
-  "version": "1.0.1",
-  "description": "A brunch wrapper for lovell/sharp",
+  "version": "1.0.2",
+  "description": "A brunch plugin to transform images",
   "main": "./lib/index",
   "keywords": [
     "sharp",
@@ -9,6 +9,7 @@
     "image",
     "resize",
     "crop",
+    "transform",
     "png",
     "jpeg",
     "tiff",
