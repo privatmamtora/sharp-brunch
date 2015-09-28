@@ -105,6 +105,9 @@ exports.config =
 
 Here are a few quirks not mentioned on the `sharp` api docs.
 
+The `sharp` api really confuses between "resize" and "crop"
+The two options work together to either perform a `resize` or `crop`
+
     { resize : [1024, 600] } // resize width to 1024px, and height 600px (this does a crop, if you want to resize then use `ignoreAspectRatio`)
 
 <!--`crop` works but only with
