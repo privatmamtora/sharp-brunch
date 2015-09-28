@@ -1,6 +1,6 @@
 {
   "name": "sharp-brunch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A brunch wrapper for lovell/sharp",
   "main": "./lib/index",
   "keywords": [
@@ -22,8 +22,8 @@
     "name": "Privat Krish Mamtora Atmaram",
     "email": "privat.mamtora@gmail.com"
   },
-  "engines" : {
-    "node" : ">=4.0.0 "
+  "engines": {
+    "node": ">=4.0.0 "
   },
   "license": "MIT",
   "dependencies": {
