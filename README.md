@@ -1,156 +1,142 @@
-Sharp for Brunch
+sharp-brunch
+===========================
+> Resize JPEG, PNG, WebP and TIFF images
 
-Pesudo
+### Prerequisites
 
-After assests are coppied minify and perform any other operations on it.
+* Node.js v4+
+* libvips v8.0+
 
-To filter files user can provide a custom `src` (a directory path) and use `imageExt` to filter by extension
+General Setup: [Sharp Installation](http://sharp.dimens.io/en/stable/install/)
 
-`src` - A path to the src files
+####OSX Prerequisites Setup
 
-`dest` - Base path to where files should be stored (will clone directory structure)
+**Recommended:**
 
-Eaxmple:
+	brew install vips --with-cfitsio --with-graphicsmagick --with-libmatio --with-mozjpeg --with-openexr --with-openslide --with-python3 --with-webp
 
-`src: "img/"`
-`dest: "/img/min"`
+**Important**: note the added `--with-mozjpeg` option, it enables certain `options`
 
-Will search `img` dir for all files
-Found: `img/sun/big.jpg`
-Will save file to: `img/min/sun/big.jpg`
+### Usage
+Install the plugin via npm with `npm install --save sharp-brunch`.
 
-Will ignore files in `dest` if it is within `src` directory
+Or, do manual install:
 
-`imageExt` is used to limit input to files the library can handel, but can be overloaded to filter list (will cry if you add unsupported extensions)
+* Add `"sharp-brunch": "x.y.z"` to `package.json` of your brunch app.
+* If you want to use git version of plugin, add
+`"sharp-brunch": "https://github.com/privatmamtora/sharp-brunch.git"`.
 
-TODO: Update so `src` takes a pattern for `glob`
+**Recommended:** this should be placed last in `package.json`
 
-Will take
+### Options
+There are a few quirks:
+The `sharp` value can either be an object containing the options or an array of options.
 
-`resize` works
+* __src__: *(String)* Default `'public/images'`. Where to look for images, only directory, no patterns. It will ignore picking up files in the `dest` directory.
+* __dest__: *(String)* Default `'public/images/min'`. Where to save new images, only directory, no patterns
+* __imageExt__: *(Array)* Default: `['png',
+                'tiff', 'tif',
+                'webp',
+                'jpeg', 'jpg', 'jpe', 'jif', 'jfif', 'jfi']`. The images to filter. If invalid file extensions are provided it will crash and burn.
+* __tasks__: *(Array)* Defaults defined by `sharp`. Either an array of multiple tasks to perform on the images or a single task. An individual task is composed of operations. If multiple tasks are defined without a `rename` operation, then images will be overwritten.
+    * __rename__: *(String)* No default. A template to rename files. Example below.
+        * __base__: The original file name
+        * __ext__: The original file extension (will appropriatly change if image converted, but must be used)
 
-    { resize : [1024, 600] } // resize width to 1024px, and height 600px (this does a crop, if you want to resize to this hen use `ignoreAspectRatio`)
-    { resize : [1024] } // resize width to 1024px and auto-height
-    { resize : [0,600] } // auto-width, and resize to 600px
+####Simple Example:
+```coffeescript
+exports.config =
+   ...
+   plugins:
+    sharp:
+      src: 'public/images'
+      imageExt: [ "jpeg", "jpg" ]
+      tasks:
+        [
+          {resize: [1000, 1000]}
+          {quality : 95}
+          {withoutAdaptiveFiltering: true}
+          {overshootDeringing: true}
+          {optimiseScans: true}
+          {rename: '{base}-1000.{ext}'}
+        ]
+```
+####Full Example:
+```coffeescript
+exports.config =
+   ...
+   plugins:
+    sharp:
+      [
+        src: 'public/images'
+        imageExt: [ "png" ]
+        tasks:
+          [
+            [
+              {resize: [1200, 1200]}
+              {toFormat: "jpeg"}
+              {quality : 95}
+              {withoutAdaptiveFiltering: true}
+              {optimiseScans: true}
+              {rename: '{base}-1200.{ext}'}
+            ]
+          ,
+            [
+              {resize: [1000, 1000]}
+              {toFormat: "jpeg"}
+              {quality : 25}
+            ]
+          ]
+      ,
+        src: 'public/images'
+        imageExt: [ "jpeg", "jpg" ]
+        tasks:
+          [
+            {resize: [1000, 1000]}
+            {quality : 95}
+            {overshootDeringing: true}
+            {optimiseScans: true}
+            {rename: '{base}-1000.{ext}'}
+          ]
+      ]
+```
 
-`crop` works but only with
+###Sharp Options
+
+Here are a few quirks not mentioned on the `sharp` api docs.
+
+    { resize : [1024, 600] } // resize width to 1024px, and height 600px (this does a crop, if you want to resize then use `ignoreAspectRatio`)
+
+<!--`crop` works but only with
 
     resize: [1024, 600]
     Not:
+	resize: [1024]
 
-    resize: [1024]
+   Will not work with `ignoreAspectRatio`, will simply resize-->
 
-    Will not work with `ignoreAspectRatio`, will simply resize
+`embed`: Will not work with `max` or `min` options
 
-`embed` works
+`withoutEnlargement`: **Recommended** (It will not grow the image if it is smaller than the resize `values`)
 
-    Will mantain aspect ratio while resizing to width or height and embed into a background of size specified
-    Wil not work with `max` or `min` options
+`ignoreAspectRatio`: Will override `max` and `min` actions that would normally maintain aspect ratio
 
-`background` works:
+`blur`
 
-    Only works with embed and flatten options
+> `0.3` - ? Tested upper limit `200`, almost turned image into a blob
+>
+>The more higher, the more cpu required.
+>
+>Recommended: <`100`
 
-`max` works
+`sharpen`
 
-`min` works
+> radius: >= 1
 
-`withoutEnlargement` works
+> flat: 0.00 - <= 13.9 (Valid tested values)
 
-By default this is enabled. (It will not grow the image if it is smaller than the resize `values`)
+> jagged: 1 - 50+
 
-`ignoreAspectRatio` works
 
-This is used when you just want to stretch the image, either by width or height or both
-
-This also overrides max and min actions that would maintain aspect ratio
-
-`interpolateWith` works
-
-`extract` works
-
-`background` works
-
-`flatten` (not tested)
-
-`rotate` works
-
-Only use `90`, `180` or `270`
-
-`flip` works
-
-`flop` works
-
-`blur` works
-
-`0.3` - ?: Tested upper limit `200`, almost turned image into a blob
-The more higher, the more cpu required.
-Recommended: <`100`
-
-Also takes `true` but almost no difference
-
-`sharpen` works
-
-radius: >= 1
-flat: 0.00 - <= 13.9 (Valid tested values)
-jagged: 1 - 50+
-
-`gamma` works
-
-`greyscale` and `grayscale` works
-
-`normalize` and `normalise` works
-
-`overlayWith` works
-
-`toFormat` works
-
-`quality` works
-
-`progressive` works
-
-`withMetadata` - Tested but not with sample
-
-`withoutChromaSubsampling` - Tested but can't see the difference (file sizes are different)
-
-`compressionLevel` works
-
-`withoutAdaptiveFiltering` - Tested but can't see the difference (file sizes are different)
-
-`trellisQuantisation` and `trellisQuantization` - Tried to test but vips ignores the option, so doesn't work
-
-`overshootDeringing` - Tried to test but vips ignores the option, so doesn't work
-
-`optimiseScans` and `optimizeScans` - Tried to test but vips ignores the option, so doesn't work
-
-*resize([width], [height])
-*crop([gravity])
-*embed()
-*max()
-*min()
-*withoutEnlargement()
-*ignoreAspectRatio()
-*interpolateWith(interpolator)
-*extract(top, left, width, height)
-*background(rgba)
-*flatten()
-*rotate([angle])
-*flip()
-*flop()
-*blur([sigma])
-*sharpen([radius], [flat], [jagged])
-*gamma([gamma])
-*grayscale() / greyscale()
-*normalize() / normalise()
-*overlayWith(filename)
-*toFormat(format) = jpeg() png() webp() raw()
-*quality(quality)
-*progressive()
-*withMetadata([metadata])
-TODO: tile([size], [overlap])
-*withoutChromaSubsampling()
-*compressionLevel(compressionLevel)
-*withoutAdaptiveFiltering()
-*trellisQuantisation() / trellisQuantization()
-*overshootDeringing()
-*optimiseScans() / optimizeScans()
+###TODO:
+* Update so `src` and `dest` takes a pattern to be used for `glob`ing
