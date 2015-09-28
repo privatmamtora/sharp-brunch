@@ -9,7 +9,7 @@ sharp-brunch
 
 General Setup: [Sharp Installation](http://sharp.dimens.io/en/stable/install/)
 
-####OSX Prerequisites Setup
+#### OSX Prerequisites Setup
 
 **Recommended:**
 
@@ -43,7 +43,7 @@ The `sharp` value can either be an object containing the options or an array of 
         * __base__: The original file name
         * __ext__: The original file extension (will appropriatly change if image converted, but must be used)
 
-####Simple Example:
+#### Simple Example:
 ```coffeescript
 exports.config =
    ...
@@ -61,7 +61,7 @@ exports.config =
           {rename: '{base}-1000.{ext}'}
         ]
 ```
-####Full Example:
+#### Full Example:
 ```coffeescript
 exports.config =
    ...
@@ -101,7 +101,7 @@ exports.config =
       ]
 ```
 
-###Sharp Options
+### Sharp Options
 
 Here are a few quirks not mentioned on the `sharp` api docs.
 
@@ -141,5 +141,5 @@ The two options work together to either perform a `resize` or `crop`
 > jagged: 1 - 50+
 
 
-###TODO:
+### TODO:
 * Update so `src` and `dest` takes a pattern to be used for `glob`ing
