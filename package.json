@@ -1,6 +1,6 @@
 {
   "name": "sharp-brunch",
-  "version": "1.0.3",
+  "version": "Remove Chalk dep",
   "description": "A brunch plugin to transform images",
   "main": "./lib/index",
   "keywords": [
@@ -29,7 +29,6 @@
   "license": "MIT",
   "dependencies": {
     "anymatch": "^1.3.0",
-    "chalk": "^1.1.1",
     "glob": "^5.0.14",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
